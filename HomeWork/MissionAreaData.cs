@@ -29,6 +29,7 @@ namespace HomeWork
             Name = name;
             RequiredLevel = requiredLevel;
             Introduction = introduction;
+            monsterid = monsterId;
         }
     }
 }
