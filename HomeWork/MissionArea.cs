@@ -30,77 +30,63 @@ namespace HomeWork
             Console.Clear();
             Console.WriteLine($"你進入了 {data.Name}！");
             Console.WriteLine($"需求等級：{data.RequiredLevel}");
-            StartMission();
+            Monster monster = MonsterFactory.Create(data.monsterid);
+            StartMission(monster);
             Player.ShowStatus();
-            BattleCombat.Start(TutorialMonster());
+            BattleCombat.Start(monster);
         }
 
-        public void StartMission()
+        public void StartMission(Monster monster) // 接收目前任務要使用的怪物。
         {
-            Console.WriteLine();
-            Console.WriteLine(data.Introduction);
-            Monster monster = TutorialMonster();
-            Console.WriteLine();
-            Console.WriteLine( $"你遇見了 LV.{monster.Level} 的 {monster.Name}！");
-            Console.WriteLine(monster.ExScription);
-            Console.WriteLine();
-            monster.ShowStatus();
+            Console.WriteLine(); 
+            Console.WriteLine(data.Introduction); // 顯示區域的劇情介紹。
+            Console.WriteLine($"你遇見了 LV.{monster.Level} 的 {monster.Name}！"); // 顯示怪物名稱和等級。
+            Console.WriteLine(monster.ExScription); // 顯示怪物描述。
+            Console.WriteLine(); 
+            monster.ShowStatus(); 
             Console.WriteLine("怪物展示完成，按任意鍵繼續。");
-            Console.ReadKey(true);
-            
+            Console.ReadKey(true); 
         }
 
-        // 建立目前區域的教學怪物，並回傳這隻怪物。
-        private Monster TutorialMonster()
-        {
-            // 依照目前區域的名稱，決定建立哪一種教學怪物。
-            switch (data.Name)
-            {
-                // 如果目前進入的是初心者森林。
-                case "初心者森林":
+        
 
-                    return new NormalMonster();
-
-                // 其他區域的教學怪物尚未設定。
-                default:
-
-                    // 明確指出缺少設定的區域，避免默默生成錯誤怪物。
-                    throw new NotSupportedException(
-                        $"尚未設定「{data.Name}」的教學怪物。");
-            }
-        }
 
         public static void ShowMenu()
         {
             MissionAreaData forestData = new MissionAreaData(
                 "初心者森林",
                 1,
-                "陽光透過樹葉灑落，你聽見草叢傳來奇怪的聲音..."
-  
+                "陽光透過樹葉灑落，你聽見草叢傳來奇怪的聲音...",
+                MonsterID.slime
+
             );
 
             MissionAreaData desertData = new MissionAreaData(
                 "挑戰者沙丘",
                 5,
-                "你踏入炎熱的沙漠，遠處有怪物正在移動..."
+                "你踏入炎熱的沙漠，遠處有怪物正在移動...",
+                MonsterID.goblin
             );
 
             MissionAreaData swampData = new MissionAreaData(
                 "熔岩沼澤",
                 10,
-                "灼熱的空氣迎面而來，四周流動著岩漿..."
+                "灼熱的空氣迎面而來，四周流動著岩漿...",
+                MonsterID.orc
             );
 
             MissionAreaData palaceData = new MissionAreaData(
                 "海底宮殿",
                 15,
-                "你來到神秘的海底宮殿，古老的建築散發微光..."
+                "你來到神秘的海底宮殿，古老的建築散發微光...",
+                MonsterID.skeleton
             );
 
             MissionAreaData castleData = new MissionAreaData(
                 "魔王城",
                 20,
-                "你站在魔王城的大門前，感受到強大的黑暗力量..."
+                "你站在魔王城的大門前，感受到強大的黑暗力量...",
+                MonsterID.MAO
             );
 
             MissionArea forest = new MissionArea(forestData);

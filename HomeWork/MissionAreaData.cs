@@ -16,11 +16,14 @@ namespace HomeWork
         // 區域劇情
         public string Introduction { get; set; }
 
+        public MonsterID monsterid { get; set; }
+
         // 建構子
         public MissionAreaData(
             string name,
             int requiredLevel,
-            string introduction
+            string introduction,
+            MonsterID monsterId
         )
         {
             Name = name;
