@@ -34,11 +34,7 @@ namespace HomeWork
                 return; // 結束本次方法呼叫。
             }
 
-            // 將負數的原始傷害修正為 0。
-            int safeDamage= Math.Max(0, rawDamage);
-
-            // 扣除玩家防禦，最終傷害最低為 0。
-            int damage = Math.Max(0, safeDamage - def);
+            int damage=Math.Max(0,rawDamage);
 
             // 真正扣掉的血量，不超過玩家目前的血量。
             int actualDamage = Math.Min(hp, damage);
@@ -47,7 +43,7 @@ namespace HomeWork
             hp -= actualDamage;
 
             // 顯示實際扣血與剩餘血量。
-            Console.WriteLine($"你受到 {actualDamage} 點傷害，剩餘 HP：{hp}");
+            Console.WriteLine($"你受到 {actualDamage} 點傷害，剩餘 HP：{hp}/{MaxHp}");
 
             // 檢查這次受傷是否導致玩家死亡。
             if (!IsAlive)

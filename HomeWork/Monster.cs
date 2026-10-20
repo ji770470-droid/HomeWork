@@ -89,7 +89,7 @@ namespace HomeWork // 與其他作業檔案保持相同命名空間。
         }
 
         // 每種具體怪物都必須提供自己的攻擊實作。
-        // 回傳值表示這次攻擊尚未扣除目標防禦的傷害。
+        
         public abstract int Attack();
 
         // 實作 IDamageable 規定的受傷方法。
@@ -101,11 +101,9 @@ namespace HomeWork // 與其他作業檔案保持相同命名空間。
                 return; // 結束這次方法呼叫。
             }
 
-            // 先把負數傷害修正成 0，避免負傷害變成補血。
-            int safeDamage = Math.Max(0, rawDamage);
 
-            // 扣除自己的防禦，傷害最低為 0。
-            int damage = Math.Max(0, safeDamage - Def);
+            
+            int damage = Math.Max(0, rawDamage);
 
             // 實際損失不能超過剩餘血量。
             int actualDamage = Math.Min(Hp, damage);

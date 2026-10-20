@@ -32,14 +32,14 @@ namespace HomeWork
             Console.WriteLine($"需求等級：{data.RequiredLevel}");
             StartMission();
             Player.ShowStatus();
+            BattleCombat.Start(TutorialMonster());
         }
 
         public void StartMission()
         {
             Console.WriteLine();
             Console.WriteLine(data.Introduction);
-            // 呼叫建立方法，取得這張地圖的教學怪物。
-            Monster monster = CreateTutorialMonster();
+            Monster monster = TutorialMonster();
             Console.WriteLine();
             Console.WriteLine( $"你遇見了 LV.{monster.Level} 的 {monster.Name}！");
             Console.WriteLine(monster.ExScription);
@@ -47,13 +47,11 @@ namespace HomeWork
             monster.ShowStatus();
             Console.WriteLine("怪物展示完成，按任意鍵繼續。");
             Console.ReadKey(true);
-            Console.Clear();
-
-            // 下一階段會在這裡接上 BattleCombat，傳入上面的 monster。
+            
         }
 
         // 建立目前區域的教學怪物，並回傳這隻怪物。
-        private Monster CreateTutorialMonster()
+        private Monster TutorialMonster()
         {
             // 依照目前區域的名稱，決定建立哪一種教學怪物。
             switch (data.Name)
@@ -61,8 +59,6 @@ namespace HomeWork
                 // 如果目前進入的是初心者森林。
                 case "初心者森林":
 
-                    // 使用目前雲端版本的無參數建構子，建立一隻史萊姆。
-                    // 建立後，把這個物件當作 Monster 回傳。
                     return new NormalMonster();
 
                 // 其他區域的教學怪物尚未設定。
