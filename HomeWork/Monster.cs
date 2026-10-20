@@ -5,9 +5,10 @@ namespace HomeWork // 與其他作業檔案保持相同命名空間。
     // Monster 是所有怪物的共同基底。
     // abstract 表示不能直接 new Monster。
     // IDamageable 表示怪物具有「可以受傷」的能力。
-    internal abstract class Monster : IDamageable
+    internal  class Monster : IDamageable
     {
         // 怪物名稱：外部可讀取，建立後不能直接修改。
+
         public string Name { get; }
 
         // 怪物等級：由建構子設定。
@@ -52,45 +53,38 @@ namespace HomeWork // 與其他作業檔案保持相同命名空間。
         }
 
         // 父類別建構子：供子類別透過 base(...) 呼叫。
-        protected Monster(
-            string name,     // 接收怪物名稱。
-            int level,       // 接收怪物等級。
-            int hp,          // 接收初始血量與最大血量。
-            int atk,         // 接收攻擊力。
-            int def,         // 接收防禦力。
-            int spd,         // 接收速度。
-            float ctr,       // 接收暴擊率。
-            int expReward,   // 接收經驗獎勵。
-            int moneyReward, // 接收金錢獎勵。
-            string attackScription,
-            string exScription) 
+        public  Monster(MonsterFactory.MonsterData data)       
         {
-            Name = name; // 保存名稱。
+            Name = data.Name; // 保存名稱。
 
-            Level = Math.Max(1, level); // 等級最低為 1。
-
-            MaxHp = Math.Max(1, hp); // 最大血量最低為 1。
+            Level = Math.Max(1, data.Level); // 等級最低為 1。
+            MaxHp = Math.Max(1, data.Hp); // 最大血量最低為 1。
 
             Hp = MaxHp; // 新建立的怪物從滿血開始。
 
-            Atk = Math.Max(0, atk); // 攻擊力最低為 0。
+            Atk = Math.Max(0, data.Atk); // 攻擊力最低為 0。
+            Def = Math.Max(0, data.Def); // 防禦力最低為 0。
 
-            Def = Math.Max(0, def); // 防禦力最低為 0。
+            SPD = Math.Max(0, data.Spd); // 速度最低為 0。
 
-            SPD = Math.Max(0, spd); // 速度最低為 0。
+            CTR = Math.Max(0f, Math.Min(1f, data.Ctr)); // 暴擊率限制在 0～1。  
+            ExpReward = Math.Max(0, data.ExpReward); // 經驗獎勵不能是負數。
 
-            CTR = Math.Max(0f, Math.Min(1f, ctr)); // 暴擊率限制在 0～1。
-
-            ExpReward = Math.Max(0, expReward); // 經驗獎勵不能是負數。
-
-            MoneyReward = Math.Max(0, moneyReward); // 金錢獎勵不能是負數。
-            AttackScription = attackScription;
-            ExScription = exScription;
+            MoneyReward = Math.Max(0, data.MoneyReward); // 金錢獎勵不能是負數。
+            AttackScription = data.AttackDescription;
+            ExScription = data.Description;
         }
 
         // 每種具體怪物都必須提供自己的攻擊實作。
         
-        public abstract int Attack();
+        public int Attack()
+        {
+            // 顯示這種怪物的專屬攻擊訊息。
+            Console.WriteLine($"{Name}{AttackScription}");
+
+            // 回傳原始攻擊傷害，尚未扣除玩家防禦。
+            return Atk;
+        }
 
         // 實作 IDamageable 規定的受傷方法。
         public void TakeDamage(int rawDamage)
